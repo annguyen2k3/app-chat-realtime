@@ -1,7 +1,15 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
-const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const database = require("./config/database");
+
+database.connect();
+
+global._io = io;
 
 const router = require("./routes/index.route");
 
@@ -12,12 +20,6 @@ app.use(express.static("public"));
 
 router(app);
 
-// Socket.io connection handling
-io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
-});
-
-// Change from app.listen to http.listen
-http.listen(3000, () => {
+server.listen(3000, () => {
     console.log(`Server is running on port 3000`);
 });
