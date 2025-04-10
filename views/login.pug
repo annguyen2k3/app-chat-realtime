@@ -1,0 +1,44 @@
+doctype html
+html(lang="vi")
+    head
+        meta(charset="UTF-8")
+        title Đăng nhập
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet")
+        style.
+            body,
+            html {
+                height: 100%;
+            }
+
+            .login-wrapper {
+                min-height: 100vh;
+            }
+
+            .login-card {
+                width: 100%;
+                max-width: 400px;
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+                background-color: white;
+            }
+
+            .btn-pink {
+                background-color: #ff4da6;
+                color: white;
+            }
+
+    body.bg-light
+        .d-flex.justify-content-center.align-items-center.login-wrapper
+            .login-card
+                h3.text-center.mb-4 Đăng nhập
+                form
+                    .mb-3
+                        label(for="username" class="form-label") Tài khoản
+                        input#username.form-control(type="text" placeholder="Nhập tài khoản")
+                    .mb-3
+                        label(for="password" class="form-label") Mật khẩu
+                        input#password.form-control(type="password" placeholder="Nhập mật khẩu")
+                    .d-grid
+                        button.btn.btn-pink(type="submit") Đăng nhập

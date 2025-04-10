@@ -1,0 +1,23 @@
+.card {
+    height: 100vh;
+}
+
+.max-width-900 {
+    max-width: 900px !important;
+}
+
+.bg-pink {
+    background-color: #ff4da6 !important;
+}
+
+.btn-pink {
+    background-color: #ff4da6;
+    color: white;
+    border: none;
+}
+
+.chat-box {
+    height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+}
