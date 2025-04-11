@@ -8,12 +8,11 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 const database = require("./config/database");
 const session = require("express-session");
+const router = require("./routes/index.route");
 
 database.connect();
 
 global._io = io;
-
-const router = require("./routes/index.route");
 
 app.set("views", "./views");
 app.set("view engine", "pug");

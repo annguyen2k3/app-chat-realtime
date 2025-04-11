@@ -1,5 +1,19 @@
+/* Reset default margin and padding */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
 .card {
     height: 100vh;
+    max-height: 100vh;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
 }
 
 .max-width-900 {
@@ -16,8 +30,57 @@
     border: none;
 }
 
-.chat-box {
-    height: 400px;
-    overflow-y: auto;
-    background-color: #fff;
+/* Card body chứa chat box */
+.card-body {
+    flex: 1;
+    padding: 0 !important;
+    overflow: hidden;
+    height: calc(100vh - 120px); /* Trừ đi chiều cao của header và footer */
 }
+
+/* Chat box chính */
+.chat-box {
+    height: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Container cho tin nhắn */
+.messages-container {
+    margin-top: auto;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.chat-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Emoji Icon */
+.tooltip {
+    visibility: hidden;
+}
+
+.tooltip.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* End Emoji Icon */

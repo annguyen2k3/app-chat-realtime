@@ -1,4 +1,4 @@
-const User = require("../models/users.model");
+const User = require("../models/user.model");
 
 module.exports.index = async (req, res) => {
     res.render("login");
@@ -7,7 +7,10 @@ module.exports.index = async (req, res) => {
 module.exports.login = async (req, res) => {
     const { username, password } = req.body;
 
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({
+        username,
+        password,
+    }).select("-password");
 
     if (!user) {
         res.render("login", {
@@ -19,11 +22,7 @@ module.exports.login = async (req, res) => {
     }
 
     // Lưu thông tin user vào session
-    req.session.user = {
-        id: user._id,
-        username: user.username,
-        fullname: user.fullname,
-    };
+    req.session.user = user;
 
     res.redirect("/");
 };
