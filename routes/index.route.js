@@ -7,4 +7,6 @@ module.exports = (app) => {
     app.get("/login", authController.index);
 
     app.post("/login", authController.login);
+
+    app.get("/logout", authController.logout);
 };

@@ -7,5 +7,5 @@ module.exports.index = (req, res) => {
         console.log("a user connected:", socket.id);
     });
 
-    res.render("index");
+    res.render("index", { user: req.session.user });
 };
