@@ -84,3 +84,45 @@ body {
 }
 
 /* End Emoji Icon */
+
+/* Typing Animation */
+.inner-dots {
+    display: flex;
+    gap: 4px;
+    padding: 8px 12px;
+    background: #f1f1f1;
+    border-radius: 20px;
+}
+
+.inner-dots span {
+    width: 6px;
+    height: 6px;
+    background: #888;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.4;
+}
+
+.inner-dots span:nth-child(1) {
+    animation: typing 1s infinite;
+}
+
+.inner-dots span:nth-child(2) {
+    animation: typing 1s infinite 0.2s;
+}
+
+.inner-dots span:nth-child(3) {
+    animation: typing 1s infinite 0.4s;
+}
+
+@keyframes typing {
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}

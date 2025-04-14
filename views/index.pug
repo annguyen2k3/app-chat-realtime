@@ -34,9 +34,12 @@ html(lang="vi")
                                 else 
                                     .d-flex.flex-column.align-items-start.mb-2
                                         .d-flex.align-items-center.gap-2
-                                            img(src=chat.infoUser.avatar alt="avatar" width="32" height="32" class="rounded-circle")
+                                            img(src=chat.infoUser.avatar alt="avatar" width="16" height="16" class="rounded-circle")
                                             .text-muted.small.fw-bold #{chat.infoUser.fullname}
                                         .p-2.bg-light.rounded-pill.text-dark #{chat.content}
+
+                            div(class="inner-list-typing")
+
 
                 .card-footer
                     form#messageForm.d-flex.w-100
