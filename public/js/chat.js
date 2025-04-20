@@ -1,4 +1,5 @@
 import * as Popper from "https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js";
+// import Viewer from "viewerjs";
 
 const socket = io();
 const chatBox = document.querySelector("#chatBox");
@@ -99,6 +100,8 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     chatBox.querySelector(".messages-container").insertBefore(div, boxTyping);
     // Cuộn xuống sau khi thêm tin nhắn mới
     scrollToBottom();
+
+    const gallery = new Viewer(div);
 });
 // END SERVER_RETURN_MESSAGE
 
@@ -203,3 +206,12 @@ socket.on("SERVER_RETURN_TYPING", (data) => {
     }
 });
 // End SERVER_RETURN_TYPING
+
+// Xem ảnh full màn hình
+const boxChatPreviewImg = document.querySelector(
+    "#chatBox .messages-container"
+);
+if (boxChatPreviewImg) {
+    const gallery = new Viewer(boxChatPreviewImg);
+}
+// Hết Xem ảnh full màn hình
