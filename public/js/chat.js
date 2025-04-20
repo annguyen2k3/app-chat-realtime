@@ -13,17 +13,30 @@ const scrollToBottom = () => {
 // Cuộn xuống khi mới load trang
 scrollToBottom();
 
+const upload = new FileUploadWithPreview.FileUploadWithPreview(
+    "upload-images",
+    {
+        multiple: true,
+        maxFileCount: 5,
+    }
+);
+
 // CLIENT_SEND_MESSAGE
 messageForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const message = messageInput.value.trim();
+    const images = upload.cachedFileArray;
 
-    if (message) {
-        socket.emit("CLIENT_SEND_MESSAGE", message);
+    if (message || images.length > 0) {
+        socket.emit("CLIENT_SEND_MESSAGE", {
+            message: message,
+            images: images,
+        });
         messageInput.value = "";
 
         // Dừng timeout hiện tại và gửi sự kiện ẩn typing
         clearTimeout(timeout);
+        upload.resetPreviewPanel();
         socket.emit("CLIENT_SEND_TYPING", "hide");
     }
 });
@@ -40,16 +53,46 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     if (data.user_id === myId) {
         div.className = "d-flex flex-column align-items-end mb-2";
         div.innerHTML = `
-            <div class="p-2 bg-pink rounded-pill text-white" style="max-width: 80%; word-wrap: break-word;">${data.content}</div>
+            ${
+                data.content
+                    ? `<div class="p-2 bg-pink rounded-pill text-white" style="max-width: 80%; word-wrap: break-word;">${data.content}</div>`
+                    : ""
+            }
+            ${
+                data.images
+                    ? data.images
+                          .map(
+                              (image) =>
+                                  `<img src="${image}" alt="image" width="200" height="200">`
+                          )
+                          .join("")
+                    : ""
+            }
         `;
     } else {
         div.className = "d-flex flex-column align-items-start mb-2";
         div.innerHTML = `
             <div class="d-flex align-items-center gap-2">
-                <img src="${data.avatar}" alt="avatar" width="16" height="16" class="rounded-circle">
+                <img src="${
+                    data.avatar ? data.avatar : "/images/circle-user-solid.svg"
+                }" alt="avatar" width="16" height="16" class="rounded-circle">
                 <div class="text-muted small fw-bold">${data.fullname}</div>
             </div>
-            <div class="p-2 bg-light rounded-pill text-dark" style="max-width: 80%; word-wrap: break-word;">${data.content}</div>
+            ${
+                data.content
+                    ? `<div class="p-2 bg-light rounded-pill text-dark" style="max-width: 80%; word-wrap: break-word;">${data.content}</div>`
+                    : ""
+            }
+            ${
+                data.images
+                    ? data.images
+                          .map(
+                              (image) =>
+                                  `<img src="${image}" alt="image" width="200" height="200">`
+                          )
+                          .join("")
+                    : ""
+            }
         `;
     }
 
