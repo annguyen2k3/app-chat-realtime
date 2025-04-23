@@ -41,3 +41,24 @@ module.exports.getNotFriends = async (req, res) => {
         notFriends: notFriends,
     });
 };
+
+// [GET] /users/requests
+module.exports.getRequestFriends = async (req, res) => {
+    const user = req.session.user;
+
+    // Socket
+    userSocket(req);
+    // End Socket
+
+    const requestFriends = await User.find({
+        _id: { $in: user.requestFriend },
+    })
+        .select("-password")
+        .lean();
+
+    res.render("pages/request-friends", {
+        title: "Lời mời đã gửi",
+        user: user,
+        requestFriends: requestFriends,
+    });
+};

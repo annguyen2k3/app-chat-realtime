@@ -12,4 +12,10 @@ router.get(
     usersController.getNotFriends
 );
 
+router.get(
+    "/requests",
+    authMiddleware.requireAuth,
+    usersController.getRequestFriends
+);
+
 module.exports = router;

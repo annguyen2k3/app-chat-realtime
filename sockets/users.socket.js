@@ -2,7 +2,8 @@ const User = require("../models/user.model");
 
 module.exports = (req) => {
     _io.once("connection", (socket) => {
-        socket.on("CLIENT_ADD_FRIEND", async (data) => {
+        // client gửi lời mời kết bạn
+        socket.on("CLIENT_SEND_REQUEST_FRIEND", async (data) => {
             const id_userRequest = req.session.user._id;
             const id_userObject = data.user_id;
 
@@ -46,5 +47,31 @@ module.exports = (req) => {
             }
             // end check danh sách lời mời đã nhận của người nhận
         });
+        // end client gửi lời mời kết bạn
+
+        // client huỷ lời mời kết bạn
+        socket.on("CLIENT_CANCEL_REQUEST_FRIEND", async (data) => {
+            const id_userRequest = req.session.user._id;
+            const id_userObject = data.user_id;
+
+            await User.updateOne(
+                { _id: id_userRequest },
+                {
+                    $pull: {
+                        requestFriend: id_userObject,
+                    },
+                }
+            );
+
+            await User.updateOne(
+                { _id: id_userObject },
+                {
+                    $pull: {
+                        acceptFriend: id_userRequest,
+                    },
+                }
+            );
+        });
+        // end client huỷ lời mời kết bạn
     });
 };
