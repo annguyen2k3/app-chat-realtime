@@ -1,0 +1,36 @@
+extends ../layouts/users.pug
+
+block main 
+    .row
+        h1(class="mt-3 text-success") Lời mời kết bạn
+
+    .row.mt-2.g-3
+        each user in acceptFriends
+            .col-sm-6
+                .box-user.d-flex.align-items-center.gap-3.border.border-secondary-subtle.rounded-3.p-3(user-id=user._id)
+                    .user-avatar
+                        img(
+                            src=`${user.avatar ? user.avatar : "/images/circle-user-solid.svg"}` 
+                            alt="avatar"
+                            height="50"
+                            width="50"
+                            class="rounded-circle")
+                    div
+                        .user-name
+                            h6.user-name-text.mb-0 #{user.fullname}
+                        .action-user.mt-2
+                            button(class="btn btn-success btn-sm text-white" btn-accept-friend)
+                                i(class="bi bi-person-add me-1")
+                                | Chấp nhận
+                            button(class="btn btn-success btn-sm text-white" disabled btn-accepted-friend)
+                                i(class="bi bi-person-add me-1")
+                                | Đã kết bạn
+                            button(class="btn btn-secondary btn-sm text-white ms-2" btn-refuse-friend)
+                                i(class="bi bi-person-x me-1")
+                                | Từ chối
+                            button(class="btn btn-secondary btn-sm text-white" disabled btn-refused-friend)
+                                i(class="bi bi-person-x me-1")
+                                | Đã xoá lời mời
+
+
+

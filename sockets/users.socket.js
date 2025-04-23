@@ -4,7 +4,7 @@ module.exports = (req) => {
     _io.once("connection", (socket) => {
         // client gửi lời mời kết bạn
         socket.on("CLIENT_SEND_REQUEST_FRIEND", async (data) => {
-            const id_userRequest = req.session.user._id;
+            const id_userRequest = req.session.user._id.toString();
             const id_userObject = data.user_id;
 
             // check danh sách lời mời đã gửi của người gửi
@@ -51,7 +51,7 @@ module.exports = (req) => {
 
         // client huỷ lời mời kết bạn
         socket.on("CLIENT_CANCEL_REQUEST_FRIEND", async (data) => {
-            const id_userRequest = req.session.user._id;
+            const id_userRequest = req.session.user._id.toString();
             const id_userObject = data.user_id;
 
             await User.updateOne(
@@ -73,5 +73,30 @@ module.exports = (req) => {
             );
         });
         // end client huỷ lời mời kết bạn
+
+        // Client từ chối lời mời kết bạn
+        socket.on("CLIENT_REFUSE_REQUEST_FRIEND", async (data) => {
+            const id_userRequest = req.session.user._id.toString();
+            const id_userObject = data.user_id;
+
+            await User.updateOne(
+                { _id: id_userRequest },
+                {
+                    $pull: {
+                        acceptFriend: id_userObject,
+                    },
+                }
+            );
+
+            await User.updateOne(
+                { _id: id_userObject },
+                {
+                    $pull: {
+                        requestFriend: id_userRequest,
+                    },
+                }
+            );
+        });
+        // Hết Client từ chối lời mời kết bạn
     });
 };

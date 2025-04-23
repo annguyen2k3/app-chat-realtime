@@ -18,4 +18,10 @@ router.get(
     usersController.getRequestFriends
 );
 
+router.get(
+    "/accepts",
+    authMiddleware.requireAuth,
+    usersController.getAcceptFriends
+);
+
 module.exports = router;

@@ -62,3 +62,24 @@ module.exports.getRequestFriends = async (req, res) => {
         requestFriends: requestFriends,
     });
 };
+
+// [GET] /users/accepts
+module.exports.getAcceptFriends = async (req, res) => {
+    const user = req.session.user;
+
+    // Socket
+    userSocket(req);
+    // End Socket
+
+    const acceptFriends = await User.find({
+        _id: { $in: user.acceptFriend },
+    })
+        .select("-password")
+        .lean();
+
+    res.render("pages/accept-friends", {
+        title: "Lời mời kết bạn",
+        user: user,
+        acceptFriends: acceptFriends,
+    });
+};

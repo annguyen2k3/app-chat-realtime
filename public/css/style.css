@@ -164,4 +164,37 @@ body {
 .box-user.add [btn-cancel-friend] {
     display: block;
 }
+
+.box-user [btn-accepted-friend] {
+    display: none;
+}
+
+.box-user [btn-refused-friend] {
+    display: none;
+}
+
+.box-user.accepted [btn-accept-friend] {
+    display: none;
+}
+
+.box-user.accepted [btn-refuse-friend] {
+    display: none;
+}
+
+.box-user.accepted [btn-accepted-friend] {
+    display: block;
+}
+
+.box-user.refused [btn-accept-friend] {
+    display: none;
+}
+
+.box-user.refused [btn-refuse-friend] {
+    display: none;
+}
+
+.box-user.refused [btn-refused-friend] {
+    display: block;
+}
+
 /* End Box User */
