@@ -151,3 +151,17 @@ body {
     background-size: contain;
 }
 /* End Preview images */
+
+/* Box User */
+.box-user [btn-cancel-friend] {
+    display: none;
+}
+
+.box-user.add [btn-add-friend] {
+    display: none;
+}
+
+.box-user.add [btn-cancel-friend] {
+    display: block;
+}
+/* End Box User */

@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 
 module.exports.index = async (req, res) => {
-    res.render("login");
+    res.render("pages/login");
 };
 
 module.exports.login = async (req, res) => {
@@ -10,7 +10,9 @@ module.exports.login = async (req, res) => {
     const user = await User.findOne({
         username,
         password,
-    }).select("-password");
+    })
+        .select("-password")
+        .lean();
 
     if (!user) {
         res.render("login", {
@@ -24,10 +26,10 @@ module.exports.login = async (req, res) => {
     // Lưu thông tin user vào session
     req.session.user = user;
 
-    res.redirect("/");
+    res.redirect("/users/friends");
 };
 
 module.exports.logout = async (req, res) => {
     req.session.destroy();
-    res.redirect("/login");
+    res.redirect("/auth/login");
 };

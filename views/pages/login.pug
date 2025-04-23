@@ -37,7 +37,7 @@ html(lang="vi")
                 if messages && messages.error
                     .alert.alert-danger.mb-3= messages.error
 
-                form(action="/login" method="POST")
+                form(action="/auth/login" method="POST")
                     .mb-3
                         label(for="username" class="form-label") Tài khoản
                         input#username.form-control(type="text" name="username" placeholder="Nhập tài khoản" autocomplete="username" value="user1" required)

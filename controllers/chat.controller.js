@@ -4,7 +4,7 @@ const { uploadToCloudinary } = require("../helpers/uploadToCloudinary");
 
 module.exports.index = async (req, res) => {
     if (!req.session.user) {
-        return res.redirect("/login");
+        return res.redirect("/auth/login");
     }
 
     const user = req.session.user;
@@ -63,7 +63,7 @@ module.exports.index = async (req, res) => {
     }
     // Hết Lấy data từ database
 
-    res.render("index", {
+    res.render("pages/chat", {
         user: req.session.user,
         chats: chats,
     });

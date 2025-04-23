@@ -1,12 +1,19 @@
-const chatController = require("../controllers/chat.controller");
-const authController = require("../controllers/auth.controller");
+const authRoute = require("./auth.route");
+const usersRoute = require("./users.route");
+const chatRoute = require("./chat.route");
 
 module.exports = (app) => {
-    app.get("/", chatController.index);
+    app.get("/", (req, res) => {
+        if (req.session.user) {
+            res.redirect("/users/friends");
+        } else {
+            res.redirect("/auth/login");
+        }
+    });
 
-    app.get("/login", authController.index);
+    app.use("/auth", authRoute);
 
-    app.post("/login", authController.login);
+    app.use("/users", usersRoute);
 
-    app.get("/logout", authController.logout);
+    app.use("/chat", chatRoute);
 };
