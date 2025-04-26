@@ -28,6 +28,7 @@ module.exports.getNotFriends = async (req, res) => {
             { _id: { $ne: user._id } },
             { _id: { $nin: user.acceptFriend } },
             { _id: { $nin: user.requestFriend } },
+            { _id: { $nin: user.friendList.map((friend) => friend.user_id) } },
         ],
         status: "active",
         deleted: false,

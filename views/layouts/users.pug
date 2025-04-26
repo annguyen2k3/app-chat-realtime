@@ -31,7 +31,10 @@ html(lang="vi")
                         a(href="/users/friends" class="btn btn-primary") Danh sách bạn bè
                         a(href="/users/not-friends" class="btn btn-primary") Danh sách người dùng
                         a(href="/users/requests" class="btn btn-primary") Lời mời đã gửi
-                        a(href="/users/accepts" class="btn btn-primary") Lời mời kết bạn
+                        a(href="/users/accepts" class="btn btn-primary position-relative") 
+                            | Lời mời kết bạn
+                            span(class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" badge-accept-friend=user._id) 
+                                | #{user.acceptFriend.length}
 
                     block main
 

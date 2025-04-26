@@ -46,6 +46,17 @@ module.exports = (req) => {
                 );
             }
             // end check danh sách lời mời đã nhận của người nhận
+
+            const userObject = await User.findOne({
+                _id: id_userObject,
+            });
+
+            const lengthAcceptFriend = userObject.acceptFriend.length;
+
+            socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND", {
+                user_id: id_userObject,
+                lengthAcceptFriend: lengthAcceptFriend,
+            });
         });
         // end client gửi lời mời kết bạn
 
@@ -98,5 +109,44 @@ module.exports = (req) => {
             );
         });
         // Hết Client từ chối lời mời kết bạn
+
+        // Client chấp nhận lời mời kết bạn
+        socket.on("CLIENT_ACCEPT_REQUEST_FRIEND", async (data) => {
+            const id_userRequest = req.session.user._id.toString();
+            const id_userObject = data.user_id;
+
+            await User.updateOne(
+                {
+                    _id: id_userRequest,
+                },
+                {
+                    $pull: {
+                        acceptFriend: id_userObject,
+                    },
+                    $push: {
+                        friendList: {
+                            user_id: id_userObject,
+                        },
+                    },
+                }
+            );
+
+            await User.updateOne(
+                {
+                    _id: id_userObject,
+                },
+                {
+                    $pull: {
+                        requestFriend: id_userRequest,
+                    },
+                    $push: {
+                        friendList: {
+                            user_id: id_userRequest,
+                        },
+                    },
+                }
+            );
+        });
+        // Hết Client chấp nhận lời mời kết bạn
     });
 };
