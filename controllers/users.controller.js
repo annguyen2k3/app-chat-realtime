@@ -9,9 +9,20 @@ module.exports.getFriends = async (req, res) => {
         return res.redirect("/auth/login");
     }
 
+    const friendsId = req.session.user.friendList.map(
+        (friend) => friend.user_id
+    );
+
+    const friends = await User.find({
+        _id: { $in: friendsId },
+    })
+        .select("-password")
+        .lean();
+
     res.render("pages/friends", {
         title: "Danh sách bạn bè",
         user: req.session.user,
+        friends: friends,
     });
 };
 

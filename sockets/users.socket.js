@@ -82,6 +82,18 @@ module.exports = (req) => {
                     },
                 }
             );
+
+            // cập nhật lại số lượng lời mời kết bạn của người nhận
+            const userObject = await User.findOne({
+                _id: id_userObject,
+            });
+
+            const lengthAcceptFriend = userObject.acceptFriend.length;
+
+            socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND", {
+                user_id: id_userObject,
+                lengthAcceptFriend: lengthAcceptFriend,
+            });
         });
         // end client huỷ lời mời kết bạn
 
