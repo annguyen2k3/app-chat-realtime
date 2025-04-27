@@ -207,3 +207,30 @@ socket.on("SERVER_RETURN_CANCEL_REQUEST_FRIEND", (data) => {
     }
 });
 // End Hiển thị lời mời kết bạn realtime
+
+// SERVER_RETURN_USER_STATUS_ONLINE
+const dataUserFriends = document.querySelector("[data-user-friends]");
+if (dataUserFriends) {
+    socket.on("SERVER_RETURN_USER_STATUS_ONLINE", (data) => {
+        const boxUser = dataUserFriends.querySelector(
+            `.box-user[id_user="${data.userId}"]`
+        );
+        if (boxUser) {
+            const elementStatus = boxUser.querySelector("[statusOnline]");
+            elementStatus.setAttribute("statusOnline", data.statusOnline);
+        }
+    });
+}
+// END SERVER_RETURN_USER_STATUS_ONLINE
+
+window.addEventListener("beforeunload", async () => {
+    try {
+        // Gửi yêu cầu logout đến server
+        await fetch("/auth/logout", {
+            method: "POST",
+            credentials: "include", // Đảm bảo gửi cookie session
+        });
+    } catch (error) {
+        console.error("Error sending logout request:", error);
+    }
+});

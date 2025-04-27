@@ -197,4 +197,12 @@ body {
     display: block;
 }
 
+.box-user [statusOnline="online"] {
+    background-color: green;
+}
+
+.box-user [statusOnline="offline"] {
+    background-color: silver;
+}
+
 /* End Box User */
