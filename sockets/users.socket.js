@@ -47,15 +47,26 @@ module.exports = (req) => {
             }
             // end check danh sách lời mời đã nhận của người nhận
 
+            // cập nhật lại số lượng lời mời kết bạn của người nhận
             const userObject = await User.findOne({
                 _id: id_userObject,
             });
 
             const lengthAcceptFriend = userObject.acceptFriend.length;
 
-            socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND", {
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
                 user_id: id_userObject,
                 lengthAcceptFriend: lengthAcceptFriend,
+            });
+
+            // thêm box-user mới realtime
+            const userRequest = await User.findOne({
+                _id: id_userRequest,
+            }).select("-password");
+
+            socket.broadcast.emit("SERVER_RETURN_INFO_ACCEPT_FRIEND", {
+                user_id: id_userObject,
+                userRequest: userRequest,
             });
         });
         // end client gửi lời mời kết bạn
@@ -90,9 +101,14 @@ module.exports = (req) => {
 
             const lengthAcceptFriend = userObject.acceptFriend.length;
 
-            socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND", {
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
                 user_id: id_userObject,
                 lengthAcceptFriend: lengthAcceptFriend,
+            });
+
+            socket.broadcast.emit("SERVER_RETURN_CANCEL_REQUEST_FRIEND", {
+                user_id: id_userObject,
+                userRequest_id: id_userRequest,
             });
         });
         // end client huỷ lời mời kết bạn
