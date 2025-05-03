@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const RoomChat = require("../models/room-chat.model");
 
 module.exports = (req) => {
     _io.once("connection", (socket) => {
@@ -143,6 +144,22 @@ module.exports = (req) => {
             const id_userRequest = req.session.user._id.toString();
             const id_userObject = data.user_id;
 
+            const roomChat = new RoomChat({
+                typeRoom: "private",
+                users: [
+                    {
+                        user_id: id_userRequest,
+                        role: "superAdmin",
+                    },
+                    {
+                        user_id: id_userObject,
+                        role: "superAdmin",
+                    },
+                ],
+            });
+
+            await roomChat.save();
+
             await User.updateOne(
                 {
                     _id: id_userRequest,
@@ -154,6 +171,7 @@ module.exports = (req) => {
                     $push: {
                         friendList: {
                             user_id: id_userObject,
+                            room_chat_id: roomChat._id.toString(),
                         },
                     },
                 }
@@ -170,6 +188,7 @@ module.exports = (req) => {
                     $push: {
                         friendList: {
                             user_id: id_userRequest,
+                            room_chat_id: roomChat._id.toString(),
                         },
                     },
                 }

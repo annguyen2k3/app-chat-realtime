@@ -222,15 +222,3 @@ if (dataUserFriends) {
     });
 }
 // END SERVER_RETURN_USER_STATUS_ONLINE
-
-window.addEventListener("beforeunload", async () => {
-    try {
-        // Gửi yêu cầu logout đến server
-        await fetch("/auth/logout", {
-            method: "POST",
-            credentials: "include", // Đảm bảo gửi cookie session
-        });
-    } catch (error) {
-        console.error("Error sending logout request:", error);
-    }
-});

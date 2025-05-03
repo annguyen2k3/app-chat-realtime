@@ -1,3 +1,4 @@
+const RoomChat = require("../models/room-chat.model");
 const User = require("../models/user.model");
 
 const userSocket = require("../sockets/users.socket");
@@ -9,9 +10,9 @@ module.exports.getFriends = async (req, res) => {
         return res.redirect("/auth/login");
     }
 
-    const friendsId = req.session.user.friendList.map(
-        (friend) => friend.user_id
-    );
+    const user = req.session.user;
+
+    const friendsId = user.friendList.map((friend) => friend.user_id);
 
     const friends = await User.find({
         _id: { $in: friendsId },
@@ -19,9 +20,19 @@ module.exports.getFriends = async (req, res) => {
         .select("-password")
         .lean();
 
+    for (const friend of friends) {
+        const roomChat = await RoomChat.findOne({
+            "users.user_id": {
+                $all: [user._id.toString(), friend._id.toString()],
+            },
+        });
+
+        friend.roomChat_id = roomChat._id.toString();
+    }
+
     res.render("pages/friends", {
         title: "Danh sách bạn bè",
-        user: req.session.user,
+        user: user,
         friends: friends,
     });
 };

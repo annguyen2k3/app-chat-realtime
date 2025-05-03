@@ -5,9 +5,9 @@ block main
         h1(class="mt-3 text-success") Danh sách bạn bè
 
     .row.mt-2.g-3(data-user-friends=user._id)
-        .col-6
+        .col-12
             each item in friends
-                .box-user.d-flex.align-items-center.gap-3.border.border-secondary-subtle.rounded-3.p-3(id_user=item._id)
+                .box-user.d-flex.align-items-center.gap-3.border.border-secondary-subtle.rounded-3.p-3.mb-2(id_user=item._id)
                     .user-avatar.position-relative
                         img(
                             src=item.avatar ? item.avatar : "/images/circle-user-solid.svg" 
@@ -24,6 +24,9 @@ block main
                         .user-name
                             h6.user-name-text.mb-0 #{item.fullname}
                         .action-user.mt-2
-                            .btn.btn-success.btn-sm.text-white Nhắn tin
+                            a(
+                                href=`/chat/${item.roomChat_id}`
+                                class="btn btn-success btn-sm text-white"
+                            ) Nhắn tin
 
 

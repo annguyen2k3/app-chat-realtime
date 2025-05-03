@@ -2,6 +2,8 @@ const authRoute = require("./auth.route");
 const usersRoute = require("./users.route");
 const chatRoute = require("./chat.route");
 
+const authMiddleware = require("../middleware/auth.middleware");
+
 module.exports = (app) => {
     app.get("/", (req, res) => {
         if (req.session.user) {
